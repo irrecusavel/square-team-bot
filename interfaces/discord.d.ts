@@ -9,6 +9,7 @@ type Event = {
 type Command = {
     name: string,
     description: string,
+    freeToUse?: boolean,
     handler: (client: CustomClient, int: ChatInputCommandInteraction) => Promise<any>
     data: SlashCommandBuilder
 }

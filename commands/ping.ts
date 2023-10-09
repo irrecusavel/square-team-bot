@@ -4,6 +4,7 @@ import { Command } from "../interfaces/discord";
 const obj: Command = {
     name: "ping",
     description: "A command to get the discord ping",
+    freeToUse: true,
     handler: async (client, int) => {
         return await int.reply({
             embeds: [{
