@@ -1,0 +1,18 @@
+{
+  "name": "square-moderation-bot",
+  "version": "1.0.0",
+  "description": "A moderation bot for Square Cloud",
+  "main": "dist/main.js",
+  "scripts": {
+    "dev": "del /s /q dist && npx tsc && node ."
+  },
+  "author": "josejooj",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.13.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.3"
+  }
+}
