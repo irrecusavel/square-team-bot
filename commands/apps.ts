@@ -28,7 +28,7 @@ const obj: Command = {
 
             if (!selects[index]) selects[index] = {
                 type: 3,
-                customId: `action${JSON.stringify({ n: "gp", a: int.user.id + Math.random() })}`,
+                customId: `${JSON.stringify({ n: "app", a: int.user.id, i: index })}`,
                 placeholder: "Select an application",
                 options: []
             }

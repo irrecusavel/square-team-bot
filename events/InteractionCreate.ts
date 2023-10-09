@@ -16,7 +16,7 @@ const obj: Event = {
                 !database.data.users.find(x => x.id === int.user.id)
             ) return await int.reply(client.utils.replies.notAuthorized)
 
-            command?.handler(client, int as ChatInputCommandInteraction)
+            return await command?.handler(client, int as ChatInputCommandInteraction)
 
         }
 
