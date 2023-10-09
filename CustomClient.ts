@@ -18,6 +18,17 @@ const ReadDirectory = <T>(path: string) => {
 class CustomClient extends Client {
 
     commands: Command[] = [];
+    utils = {
+        replies: {
+            notAuthorized: {
+                ephemeral: true,
+                embeds: [{
+                    color: 0xff0000,
+                    description: `:x: | You don't have permission to perform this action.`
+                }]
+            }
+        }
+    }
 
     constructor(options: ClientOptions & { token: string }) {
         super(options)

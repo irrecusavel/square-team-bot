@@ -14,15 +14,7 @@ const obj: Event = {
                 !command?.freeToUse &&
                 int.user.id !== client.application?.owner?.id &&
                 !database.data.users.find(x => x.id === int.user.id)
-            ) {
-                return await int.reply({
-                    ephemeral: true,
-                    embeds: [{
-                        color: 0xff0000,
-                        description: `:x: | You don't have permission to perform this action.`
-                    }]
-                })
-            }
+            ) return await int.reply(client.utils.replies.notAuthorized)
 
             command?.handler(client, int as ChatInputCommandInteraction)
 
