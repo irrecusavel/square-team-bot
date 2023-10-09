@@ -1,5 +1,6 @@
 import { CustomClient } from './CustomClient'
 import { config as configEnv } from 'dotenv';
+import './util/Prototypes';
 
 configEnv();
 
