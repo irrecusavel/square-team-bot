@@ -5,8 +5,6 @@ import axios from 'axios';
 
 class CustomClient extends Client {
 
-    moderators = [];
-
     constructor(options: ClientOptions & { token: string }) {
         super(options)
         this.EventHandler();

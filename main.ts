@@ -2,6 +2,7 @@ import { CustomClient } from './CustomClient'
 import { config as configEnv } from 'dotenv';
 import axios from 'axios';
 import './util/Prototypes';
+import './util/Database/Main';
 
 configEnv();
 
@@ -14,7 +15,8 @@ axios.interceptors.response.use((response) => response, (error) => {
         process.exit()
     }
     
-    error.response
+    return error.response;
+    
 })
 
 new CustomClient({
