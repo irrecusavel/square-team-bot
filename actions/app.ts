@@ -55,6 +55,10 @@ const obj: Action = {
             const components: typeof _components = JSON.parse(JSON.stringify(_components))
 
             for (const component of components[0].components) {
+
+                if (component.custom_id === "start" && status.running) component.disabled = true;
+                if (component.custom_id === "stop" && !status.running) component.disabled = true;
+
                 component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id })
             }
             // @ts-ignore
