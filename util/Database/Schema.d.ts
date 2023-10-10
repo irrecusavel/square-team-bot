@@ -1,4 +1,4 @@
-export type Permissions = 'RESTART' | 'STOP' | 'START' | 'BACKUP' | 'DELETE' | 'LOGS'
+export type Permissions = 'RESTART' | 'STOP' | 'START' | 'BACKUP' | 'LOGS'
 export type DB = {
     commandsInDiscord?: boolean,
     users: {

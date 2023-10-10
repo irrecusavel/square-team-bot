@@ -23,12 +23,24 @@ const obj: Event = {
         /**
          * A partir daqui assumimos que é uma action.
          */
+        // @ts-ignore
         
         const data = await JSON.parse((int as ButtonInteraction).customId);
         const action = client._actions.find(x => x.name === data.n);
 
         if (data.a !== int.user.id) return await (int as ButtonInteraction).reply(client.utils.replies.notAuthorized);
+        if (action?.checkPermission) {
+            
+            const mod = database.data.users.find(x => x.id === int.user.id);
+            const app = mod?.apps.find(x => ["*", data.id].includes(x.id));
+            const isOwner = int.user.id === client.application?.owner?.id;
+    
+            if (!isOwner && (!mod || !app || !app.permissions.includes(action.checkPermission))) return await (int as ButtonInteraction).reply(client.utils.replies.notAuthorized);
+
+        }
+        
         if (int.isStringSelectMenu()) action?.selects?.string(client, int, data);
+        if (int.isButton()) action?.button?.(client, int, data)
         
     }
 }

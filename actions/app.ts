@@ -53,7 +53,7 @@ const obj: Action = {
 
             const components: typeof _components = JSON.parse(JSON.stringify(_components))
 
-            for (const component of components[0].components) component.custom_id = JSON.stringify({ a: int.user.id, id: app.id, n: component.custom_id })
+            for (const component of components[0].components) component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id })
             // @ts-ignore
             components.push(...int.message.components.filter(x => x.components[0].type === 3).map(x => x.toJSON()))
 
