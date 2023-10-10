@@ -35,7 +35,7 @@ const obj: Command = {
 
             selects[index].options.push({
                 label: `${app.tag} (${app.lang})`,
-                value: app.id + Math.random() + Math.random().toString(),
+                value: app.id,
                 emoji: { name: app.isWebsite? "🌐":"🤖" },
                 description: "Click to manage this application"
             })

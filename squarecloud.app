@@ -1,4 +1,4 @@
 DISPLAY_NAME=Square Moderation Bot
 MEMORY=100
-VERSION=latest
+VERSION=recommended
 MAIN=dist/main.js
