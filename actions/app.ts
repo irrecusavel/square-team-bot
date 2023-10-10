@@ -45,8 +45,9 @@ const obj: Action = {
     selects: {
         string: async (client, int, data) => {
 
-            const res = await axios.get("/apps/" + int.values[0]);
-            const res2 = await axios.get(`/apps/${int.values[0]}/status`);
+            const id = data.id || int.values[0]
+            const res = await axios.get("/apps/" + id);
+            const res2 = await axios.get(`/apps/${id}/status`);
             const app = res.data.response.app;
             const status = res2.data.response
 
@@ -56,7 +57,7 @@ const obj: Action = {
 
             for (const component of components[0].components) {
 
-                if (component.custom_id === "start" && status.running) component.disabled = true;
+                // change before commit if (component.custom_id === "start" && status.running) component.disabled = true;
                 if (component.custom_id === "stop" && !status.running) component.disabled = true;
 
                 component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id })
@@ -66,10 +67,10 @@ const obj: Action = {
 
             for (const _component of components.filter(x => x.components[0].type === 3)) {
                 const component = _component as unknown as { type: 1, components: StringSelectMenuComponent[] };
-                for (const option of component.components[0].options) option.default = option.value === int.values[0]
+                for (const option of component.components[0].options) option.default = option.value === id
             }
 
-            return await int.update({
+            const body = {
                 embeds: [{
                     color: 0x00FF00,
                     author: {
@@ -83,7 +84,7 @@ const obj: Action = {
                         { name: "CPU", value: status.cpu },
                         { name: "Memory", value: `${status.ram}MB / ${app.ram}MB` },
                         { name: "Status", value: status.running ? "Em execução" : "Parado" },
-                        { name: "Uptime", value: `<t:${Math.floor(status.uptime / 1000)}:R>` },
+                        { name: "Uptime", value: status.running ? `<t:${Math.floor(status.uptime / 1000)}:R>` : "Indisponível" },
                         { name: "Storage (SSD)", value: status.storage },
                         { name: "Cluster", value: app.cluster.toUpperCase() },
                         { name: "Network (Total)", value: status.network.total },
@@ -92,7 +93,10 @@ const obj: Action = {
                     ].map(x => ({ ...x, inline: true }))
                 }],
                 components
-            })
+            }
+
+            if (!data.sec) return await int.update(body)
+            else return await int.editReply(body)
         },
     }
 }

@@ -43,6 +43,9 @@ class CustomClient extends Client {
         this.ActionHandler();
         this.once('ready', this.Configure);
         this.login(options.token).catch(e => {
+
+            if (e.code !== "TokenInvalid") throw e;
+
             console.error("Your env.DISCORD_TOKEN is invalid. Please re-configure.")
             process.exit()
         })
