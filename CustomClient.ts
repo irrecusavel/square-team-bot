@@ -60,7 +60,7 @@ class CustomClient extends Client {
 
                 const i = data.i;
                 const moderator = database.data.users[i];
-                const body = {
+                const body = database.data.users.length ? {
                     embeds: [{
                         description:
                             `> Listing moderator ${i + 1}/${database.data.users.length}\n` +
@@ -87,9 +87,21 @@ class CustomClient extends Client {
                                 emoji: { name: "➡" },
                                 custom_id: JSON.stringify({ ...data, i: i + 1 }),
                                 disabled: i === database.data.users.length - 1
+                            },
+                            {
+                                type: 2,
+                                style: 4,
+                                emoji: { name: "🗑️" },
+                                custom_id: JSON.stringify({ ...data, n: "modrm", t: moderator.id })
                             }
                         ]
                     }]
+                } : {
+                    embeds: [{
+                        color: 0xFFFF00,
+                        description: `:warning: | You don't have moderators, you can add one by using \`/modadd\` or \`/apps\` command`
+                    }],
+                    components: []
                 }
 
                 if (int.isCommand()) return int.reply(body)
