@@ -12,10 +12,12 @@ const obj: Command = {
             embeds: [{
                 color: 0x00ff00,
                 description:
-                    "Add moderator for your application(s)\n" +
+                    "Add moderator for all your application(s)\n" +
                     "\n" +
                     "**User**: Not defined\n" +
-                    "**Applications**: Not defined"
+                    "**Permissions**: Not defined\n" +
+                    "\n" +
+                    "**OBS**: This command will allow a user to manage **all** of your applications. If you want to select a user to manage a single application, please use \`/apps\` command"
             }],
             components: [{
                 type: 1,

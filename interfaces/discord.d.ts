@@ -1,4 +1,4 @@
-import { ButtonBuilder, ButtonInteraction, ChatInputCommandInteraction, SlashCommandBuilder, StringSelectMenuInteraction } from "discord.js"
+import { ButtonBuilder, ButtonInteraction, ChatInputCommandInteraction, SlashCommandBuilder, StringSelectMenuInteraction, UserSelectMenuInteraction } from "discord.js"
 import { CustomClient } from "../CustomClient"
 import { Permissions } from "../util/Database/Schema"
 type Event = {
@@ -19,6 +19,7 @@ type Action = {
     checkPermission?: Permissions
     button?: (client: CustomClient, int: ButtonInteraction, data: Record<string, any> & { n: string, a: string }) => Promise<any>
     selects?: {
-        string: (client: CustomClient, int: StringSelectMenuInteraction, data: Record<string, any> & { n: string, a: string }) => Promise<any>
+        string?: (client: CustomClient, int: StringSelectMenuInteraction, data: Record<string, any> & { n: string, a: string }) => Promise<any>
+        user?: (client: CustomClient, int: UserSelectMenuInteraction, data: Record<string, any> & { n: string, a: string }) => Promise<any>
     }
 }

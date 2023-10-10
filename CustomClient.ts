@@ -51,7 +51,7 @@ class CustomClient extends Client {
                     components: []
                 })
 
-                return await this._actions.find(x => x.name === 'app')!.selects?.string(client, int as unknown as StringSelectMenuInteraction, { ...data, sec: true });
+                return await this._actions.find(x => x.name === 'app')!.selects?.string?.(client, int as unknown as StringSelectMenuInteraction, { ...data, sec: true });
 
             }
         }

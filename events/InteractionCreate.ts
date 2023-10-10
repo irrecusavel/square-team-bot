@@ -39,7 +39,8 @@ const obj: Event = {
 
         }
         
-        if (int.isStringSelectMenu()) action?.selects?.string(client, int, data);
+        if (int.isStringSelectMenu()) action?.selects?.string?.(client, int, data);
+        if (int.isUserSelectMenu()) action?.selects?.user?.(client, int, data);
         if (int.isButton()) action?.button?.(client, int, data)
         
     }

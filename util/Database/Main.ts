@@ -17,14 +17,14 @@ class Database {
         }
 
         setInterval(() => this.save(), options?.intervalToSave || 5000);
-        
+
     }
 
     private save = () => {
 
         const replacedPath = this.path.replace('.json', '.json.temp')
 
-        fs.writeFileSync(replacedPath, JSON.stringify(this.data, null, '\t'));
+        fs.writeFileSync(replacedPath, JSON.stringify(this.data, null, process.env.GUILD_ID ? '  ' : undefined));
         fs.renameSync(replacedPath, this.path);
 
     }

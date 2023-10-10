@@ -14,11 +14,12 @@ const obj: Command = {
         let applications = info.data.response.applications as Application[];
 
         if (int.user.id !== client.application?.owner?.id) {
+            
             const mod = database.data.users.find(x => x.id === int.user.id);
 
             if (!mod) return await int.reply(client.utils.replies.notAuthorized);
-
-            applications = applications.filter(app => mod.apps.some(x => x.id === app.id))
+            if (!mod.apps.some(x => x.id === "*")) applications = applications.filter(app => mod.apps.some(x => x.id === app.id))
+        
         }
 
         for (let i = 0; i < applications.length; i++) {
