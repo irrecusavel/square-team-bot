@@ -43,14 +43,16 @@ class CustomClient extends Client {
 
                 const res = await axios.post(`/apps/${data.id}/${action}`)
 
-                if (res.status === 200) return await this._actions.find(x => x.name === 'app')!.selects?.string(client, int as unknown as StringSelectMenuInteraction, { ...data, sec: true })
-                else return int.editReply({
+                if (res.status !== 200) return int.editReply({
                     embeds: [{
                         color: 0xFF0000,
                         description: `:x: | An error ocurred while ${{ start: "starting", stop: "stopping", restart: "restarting" }[action]} your application...\n\`\`\`json\n${res.data || res.statusText}\n\`\`\``
                     }],
                     components: []
                 })
+
+                return await this._actions.find(x => x.name === 'app')!.selects?.string(client, int as unknown as StringSelectMenuInteraction, { ...data, sec: true });
+
             }
         }
     }
