@@ -1,4 +1,4 @@
-import { ButtonInteraction, Client, ClientOptions, Routes, StringSelectMenuInteraction } from 'discord.js';
+import { ButtonInteraction, ChatInputCommandInteraction, Client, ClientOptions, Routes, StringSelectMenuInteraction } from 'discord.js';
 import fs from 'fs';
 import { Action, Command, Event } from './interfaces/discord';
 import axios from 'axios';
@@ -52,6 +52,48 @@ class CustomClient extends Client {
                 })
 
                 return await this._actions.find(x => x.name === 'app')!.selects?.string?.(client, int as unknown as StringSelectMenuInteraction, { ...data, sec: true });
+
+            },
+            moderators: async (client: this, int: ChatInputCommandInteraction | ButtonInteraction, data: any = { n: "modlist", a: int.user.id, i: 0 }) => {
+
+                if (int.user.id !== client.application?.owner?.id) return int.reply(client.utils.replies.notAuthorized);
+
+                const i = data.i;
+                const moderator = database.data.users[i];
+                const body = {
+                    embeds: [{
+                        description:
+                            `> Listing moderator ${i + 1}/${database.data.users.length}\n` +
+                            `> Moderator: <@${moderator.id}>\n` +
+                            "> Applications: " + moderator.apps.length + "\n" +
+                            "\n" +
+                            moderator.apps.map(app =>
+                                `> \`${app.id === "*" ? "Todas as aplicações" : app.id}\` - ${app.permissions.map(perm => perm[0] + perm.slice(1).toLowerCase()).join(", ")}`
+                            ).join("\n")
+                    }],
+                    components: [{
+                        type: 1,
+                        components: [
+                            {
+                                type: 2,
+                                style: 2,
+                                emoji: { name: "⬅" },
+                                custom_id: JSON.stringify({ ...data, i: i - 1 }),
+                                disabled: i === 0
+                            },
+                            {
+                                type: 2,
+                                style: 2,
+                                emoji: { name: "➡" },
+                                custom_id: JSON.stringify({ ...data, i: i + 1 }),
+                                disabled: i === database.data.users.length - 1
+                            }
+                        ]
+                    }]
+                }
+
+                if (int.isCommand()) return int.reply(body)
+                else return int.update(body)
 
             }
         }
