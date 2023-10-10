@@ -9,7 +9,8 @@ const _components = [
                 type: 2,
                 style: 3,
                 emoji: { name: "▶️" },
-                custom_id: "start"
+                custom_id: "start",
+                disabled: false
             },
             {
                 type: 2,
@@ -53,7 +54,9 @@ const obj: Action = {
 
             const components: typeof _components = JSON.parse(JSON.stringify(_components))
 
-            for (const component of components[0].components) component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id })
+            for (const component of components[0].components) {
+                component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id })
+            }
             // @ts-ignore
             components.push(...int.message.components.filter(x => x.components[0].type === 3).map(x => x.toJSON()))
 
@@ -75,7 +78,7 @@ const obj: Action = {
                     fields: [
                         { name: "CPU", value: status.cpu },
                         { name: "Memory", value: `${status.ram}MB / ${app.ram}MB` },
-                        { name: "Status", value: { running: "Em execução" }[status.status as 'running'] || status.status },
+                        { name: "Status", value: status.running ? "Em execução" : "Parado" },
                         { name: "Uptime", value: `<t:${Math.floor(status.uptime / 1000)}:R>` },
                         { name: "Storage (SSD)", value: status.storage },
                         { name: "Cluster", value: app.cluster.toUpperCase() },
