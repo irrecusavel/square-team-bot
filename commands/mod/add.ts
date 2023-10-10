@@ -9,6 +9,7 @@ const obj: Command = {
         if (int.user.id !== client.application?.owner?.id) return int.reply(client.utils.replies.notAuthorized);
 
         return await int.reply({
+            ephemeral: true,
             embeds: [{
                 color: 0x00ff00,
                 description:
@@ -23,7 +24,7 @@ const obj: Command = {
                 type: 1,
                 components: [{
                     type: 5,
-                    custom_id: JSON.stringify({ n: "modadd", a: int.user.id })
+                    custom_id: JSON.stringify({ n: "modadd" })
                 }]
             }]
         })

@@ -37,6 +37,30 @@ const _components = [
                 custom_id: "backup"
             }
         ]
+    },
+    {
+        type: 1, components: [
+            {
+                type: 2,
+                style: 2,
+                emoji: { name: "👥" },
+                custom_id: "modaddapp"
+            },
+            {
+                type: 2,
+                style: 2,
+                emoji: { name: "🔼" },
+                custom_id: "commit",
+                disabled: true
+            },
+            {
+                type: 2,
+                style: 4,
+                emoji: { name: "🗑️" },
+                custom_id: "delete",
+                disabled: true
+            }
+        ]
     }
 ]
 
@@ -57,11 +81,14 @@ const obj: Action = {
 
             for (const component of components[0].components) {
 
-                // change before commit if (component.custom_id === "start" && status.running) component.disabled = true;
+                if (component.custom_id === "start" && status.running) component.disabled = true;
                 if (component.custom_id === "stop" && !status.running) component.disabled = true;
 
                 component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id })
             }
+
+            for (const component of components[1].components) component.custom_id = JSON.stringify({ n: component.custom_id, a: int.user.id, id: app.id });
+
             // @ts-ignore
             components.push(...int.message.components.filter(x => x.components[0].type === 3).map(x => x.toJSON()))
 
@@ -74,7 +101,7 @@ const obj: Action = {
                 embeds: [{
                     color: 0x00FF00,
                     author: {
-                        name: app.custom || app.name,
+                        name: (app.custom || app.name || ""),
                         url: app.isWebsite ? "https://" + app.custom || app.domain : undefined,
                         icon_url: app.avatar
                     },
@@ -90,8 +117,9 @@ const obj: Action = {
                         { name: "Network (Total)", value: status.network.total },
                         { name: "Network (now)", value: status.network.now },
                         { name: "Requests", value: status.requests + "/???" },
-                    ].map(x => ({ ...x, inline: true }))
+                    ].map(x => ({ ...x, inline: true })),
                 }],
+                content: `ID: ${app.id}`,
                 components
             }
 

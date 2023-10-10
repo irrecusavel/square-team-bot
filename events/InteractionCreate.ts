@@ -28,7 +28,7 @@ const obj: Event = {
         const data = await JSON.parse((int as ButtonInteraction).customId);
         const action = client._actions.find(x => x.name === data.n);
 
-        if (data.a !== int.user.id) return await (int as ButtonInteraction).reply(client.utils.replies.notAuthorized);
+        if (data.a && data.a !== int.user.id) return await (int as ButtonInteraction).reply(client.utils.replies.notAuthorized);
         if (action?.checkPermission) {
             
             const mod = database.data.users.find(x => x.id === int.user.id);
