@@ -1,6 +1,6 @@
 import { Client, ClientOptions, Routes } from 'discord.js';
 import fs from 'fs';
-import { Command, Event } from './interfaces/discord';
+import { Action, Command, Event } from './interfaces/discord';
 import axios from 'axios';
 import database from './util/Database/Main';
 
@@ -9,7 +9,12 @@ const ReadDirectory = <T>(path: string) => {
     const files: T[] = []
     
     for (const filename of fs.readdirSync(`./dist/${path}`)) {
-        files.push(require(`./${path}/${filename}`).default);
+
+        const stat = fs.statSync(`./dist/${path}/${filename}`);
+
+        if (stat.isDirectory()) files.push(...ReadDirectory<T>(`${path}/${filename}`));
+        else files.push(require(`./${path}/${filename}`).default);
+
     }
 
     return files;
@@ -18,6 +23,7 @@ const ReadDirectory = <T>(path: string) => {
 class CustomClient extends Client {
 
     commands: Command[] = [];
+    _actions: Action[] = [];
     utils = {
         replies: {
             notAuthorized: {
@@ -33,7 +39,8 @@ class CustomClient extends Client {
     constructor(options: ClientOptions & { token: string }) {
         super(options)
         this.EventHandler();
-        this.commandHandler();
+        this.CommandHandler();
+        this.ActionHandler();
         this.once('ready', this.Configure);
         this.login(options.token).catch(e => {
             console.error("Your env.DISCORD_TOKEN is invalid. Please re-configure.")
@@ -53,7 +60,7 @@ class CustomClient extends Client {
         for (const event of ReadDirectory<Event>("events")) this.on(event.name, event.listener.bind(null, this))
     }
 
-    private commandHandler() {
+    private CommandHandler() {
         this.commands = ReadDirectory<Command>('commands');
 
         const slash: Command['data'][] = [];
@@ -68,6 +75,10 @@ class CustomClient extends Client {
             }
         })
 
+    }
+
+    private ActionHandler() {
+        this._actions = ReadDirectory<Action>('actions');
     }
 
 }
