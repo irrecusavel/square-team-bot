@@ -1,13 +1,13 @@
-import { Client, ClientOptions, Routes } from 'discord.js';
+import { ButtonInteraction, Client, ClientOptions, Routes, StringSelectMenuInteraction } from 'discord.js';
 import fs from 'fs';
 import { Action, Command, Event } from './interfaces/discord';
 import axios from 'axios';
 import database from './util/Database/Main';
 
 const ReadDirectory = <T>(path: string) => {
-    
+
     const files: T[] = []
-    
+
     for (const filename of fs.readdirSync(`./dist/${path}`)) {
 
         const stat = fs.statSync(`./dist/${path}/${filename}`);
@@ -32,6 +32,25 @@ class CustomClient extends Client {
                     color: 0xff0000,
                     description: `:x: | You don't have permission to perform this action.`
                 }]
+            },
+            UpdateApplication: async (client: this, int: ButtonInteraction, data: any, action: "start" | "stop" | "restart") => {
+
+                const row: typeof int.message.components[0] = JSON.parse(JSON.stringify(int.message.components[0].toJSON()))
+                // @ts-ignore
+                for (let i = 0; i < row.components.length - 2; i++) row.components[i].disabled = true;
+
+                await int.update({ components: [row, ...int.message.components.slice(1)] })
+
+                const res = await axios.post(`/apps/${data.id}/${action}`)
+
+                if (res.status === 200) return await this._actions.find(x => x.name === 'app')!.selects?.string(client, int as unknown as StringSelectMenuInteraction, { ...data, sec: true })
+                else return int.editReply({
+                    embeds: [{
+                        color: 0xFF0000,
+                        description: `:x: | An error ocurred while ${{ start: "starting", stop: "stopping", restart: "restarting" }[action]} your application...\n\`\`\`json\n${res.data || res.statusText}\n\`\`\``
+                    }],
+                    components: []
+                })
             }
         }
     }
