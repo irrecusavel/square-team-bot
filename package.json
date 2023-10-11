@@ -1,7 +1,7 @@
 {
-  "name": "square-moderation-bot",
+  "name": "square-team-bot",
   "version": "1.0.0",
-  "description": "A moderation bot for Square Cloud",
+  "description": "A team moderation bot for Square Cloud",
   "main": "dist/main.js",
   "scripts": {
     "dev": "del /s /q dist && npx tsc && node ."
