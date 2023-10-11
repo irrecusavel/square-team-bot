@@ -68,7 +68,7 @@ class CustomClient extends Client {
                             "> Applications: " + moderator.apps.length + "\n" +
                             "\n" +
                             moderator.apps.map(app =>
-                                `> \`${app.id === "*" ? "Todas as aplicações" : app.id}\` - ${app.permissions.map(perm => perm[0] + perm.slice(1).toLowerCase()).join(", ")}`
+                                `> \`${app.id === "*" ? "All applications" : app.id}\` - ${app.permissions.map(perm => perm[0] + perm.slice(1).toLowerCase()).join(", ")}`
                             ).join("\n")
                     }],
                     components: [{

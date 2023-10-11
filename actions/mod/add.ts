@@ -41,13 +41,24 @@ const obj: Action = {
         },
         string: async (client, int, data) => {
 
+            const oldUser: typeof database.data.users[0] = JSON.parse(JSON.stringify(database.data.users.find(x => x.id === data.t) || {}));
+
+            if (oldUser.apps?.length >= 20) return int.reply({
+                embeds: [{
+                    color: 0xFFFF00,
+                    description: "The user reached the limit of 20 applications to moderate."
+                }]
+            })
             database.data.users = database.data.users.filter(x => x.id !== data.t)
             database.data.users.push({
                 id: data.t,
-                apps: [{
-                    id: data.id || "*",
-                    permissions: int.values as unknown as Permissions[]
-                }]
+                apps: [
+                    ...oldUser.apps,
+                    {
+                        id: data.id || "*",
+                        permissions: int.values as unknown as Permissions[]
+                    }
+                ]
             })
 
             await int.update({
