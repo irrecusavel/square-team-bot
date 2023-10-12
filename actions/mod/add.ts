@@ -53,7 +53,7 @@ const obj: Action = {
             database.data.users.push({
                 id: data.t,
                 apps: [
-                    ...oldUser.apps,
+                    ...(oldUser?.apps || []),
                     {
                         id: data.id || "*",
                         permissions: int.values as unknown as Permissions[]
