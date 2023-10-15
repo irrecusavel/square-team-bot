@@ -117,7 +117,7 @@ const obj: Action = {
                         { name: "Requests", value: status.requests + "/???" },
                     ].map(x => ({ ...x, inline: true })),
                 }],
-                content: `ID: ${app.id}`,
+                content: `ID: ||${app.id}||`,
                 components
             }
 
