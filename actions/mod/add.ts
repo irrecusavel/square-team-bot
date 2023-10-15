@@ -32,7 +32,9 @@ const obj: Action = {
                             { emoji: { name: "🔂" }, value: "RESTART", label: "Restart application" },
                             { emoji: { name: "⏹️" }, value: "STOP", label: "Stop application" },
                             { emoji: { name: "📟" }, value: "LOGS", label: "Get log/terminal of application" },
-                            { emoji: { name: "💾" }, value: "BACKUP", label: "Get a backup of application" }
+                            { emoji: { name: "💾" }, value: "BACKUP", label: "Get a backup of application" },
+                            { emoji: { name: "🔼" }, value: "COMMIT", label: "Commit files into an application" },
+                            { emoji: { name: "🗑️" }, value: "DELETE", label: "Delete an application" }
                         ],
                         max_values: 5
                     }]
@@ -49,11 +51,12 @@ const obj: Action = {
                     description: "The user reached the limit of 20 applications to moderate."
                 }]
             })
+
             database.data.users = database.data.users.filter(x => x.id !== data.t)
             database.data.users.push({
                 id: data.t,
                 apps: [
-                    ...(oldUser?.apps || []),
+                    ...(oldUser?.apps || []).filter(x => x.id !== data.id),
                     {
                         id: data.id || "*",
                         permissions: int.values as unknown as Permissions[]

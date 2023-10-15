@@ -50,15 +50,13 @@ const _components = [
                 type: 2,
                 style: 2,
                 emoji: { name: "🔼" },
-                custom_id: "commit",
-                disabled: true
+                custom_id: "commit"
             },
             {
                 type: 2,
                 style: 4,
                 emoji: { name: "🗑️" },
-                custom_id: "delete",
-                disabled: true
+                custom_id: "delete"
             }
         ]
     }
