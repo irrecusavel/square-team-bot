@@ -23,7 +23,9 @@ const ReadDirectory = <T>(path: string) => {
 class CustomClient extends Client {
 
     commands: Command[] = [];
+    CommitCache: { threadId: string, appId: string, userId: string, timeout: NodeJS.Timeout }[] = [];
     _actions: Action[] = [];
+
     utils = {
         replies: {
             notAuthorized: {
