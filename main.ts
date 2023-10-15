@@ -3,7 +3,6 @@ import { config as configEnv } from 'dotenv';
 import axios from 'axios';
 import './util/Prototypes';
 import './util/Database/Main';
-//import { Partials } from 'discord.js';
 
 configEnv();
 
@@ -21,6 +20,6 @@ axios.interceptors.response.use((response) => response, (error) => {
 })
 
 new CustomClient({
-    intents: ["Guilds"],
+    intents: ["GuildMessages", "DirectMessages", "Guilds", "MessageContent"],
     token: process.env.DISCORD_TOKEN!,
 })
