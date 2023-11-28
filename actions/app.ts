@@ -50,7 +50,8 @@ const _components = [
                 type: 2,
                 style: 2,
                 emoji: { name: "🔼" },
-                custom_id: "commit"
+                custom_id: "commit",
+                disabled: true
             },
             {
                 type: 2,
@@ -70,7 +71,7 @@ const obj: Action = {
             const id = data.id || int.values[0]
             const res = await axios.get("/apps/" + id);
             const res2 = await axios.get(`/apps/${id}/status`);
-            const app = res.data.response.app;
+            const app = res.data.response;
             const status = res2.data.response
 
             if (res.status === 404 || res2.status === 404) return await int.reply({ ephemeral: true, embeds: [{ color: 0xFFFF00, description: `:warning: | Maybe this application was deleted` }] })
